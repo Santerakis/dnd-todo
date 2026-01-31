@@ -1,0 +1,277 @@
+/* Шапка */
+.app-header {
+  height: 60px;
+  background: #181818;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  border-bottom: 1px solid #333;
+  z-index: 1001;
+}
+
+.create-list-btn {
+  padding: 10px 20px;
+  background-color: #bb86fc;
+  color: #000;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+/* Профиль и Аватарка */
+.profile-container {
+  position: relative;
+  display: inline-block;
+  padding: 10px 0;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #bb86fc, #6200ee);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 200px;
+  background: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 15px;
+  display: none;
+  z-index: 1002;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+
+.profile-container:hover .profile-dropdown { display: block; animation: fadeIn 0.2s ease-out; }
+
+/* Админ-панель */
+.admin-dashboard {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 250px;
+  background: rgba(30, 30, 30, 0.9);
+  border: 1px solid #bb86fc;
+  border-radius: 8px;
+  padding: 15px;
+  color: white;
+  z-index: 1000;
+}
+
+.workspace {
+  position: relative;
+  flex-grow: 1;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Выпадающее меню */
+.profile-dropdown {
+  position: absolute;
+  top: 55px;
+  right: 0;
+  width: 180px;
+  background: #1e1e1e;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+  display: none;
+  border: 1px solid #333;
+  text-align: center;
+}
+
+/* Имя пользователя */
+.dropdown-user-name {
+  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+}
+
+/* Расстояние между именем и кнопкой */
+.dropdown-spacer {
+  height: 15px; /* Регулируйте это значение для изменения отступа */
+}
+
+/* Кнопка Выйти в стиле "Создать список" */
+.logout-btn-styled {
+  width: 100%;
+  padding: 8px 16px;
+  background-color: #bb86fc; /* Тот же цвет, что у кнопки Создать список */
+  color: #000;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.logout-btn-styled:hover {
+  background-color: #a370db; /* Тот же эффект наведения */
+}
+
+.drag-handle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: #2d2d2d;
+  border-radius: 8px 8px 0 0;
+}
+
+.list-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  /* Ограничиваем ширину текста, чтобы не наезжал на крестик */
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.crm-container {
+  padding: 40px;
+  color: white;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.crm-title {
+  color: #bb86fc;
+  margin-bottom: 30px;
+  font-size: 24px;
+}
+
+.crm-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #1e1e1e;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.crm-table th, .crm-table td {
+  padding: 15px 20px;
+  text-align: left;
+  border-bottom: 1px solid #333;
+}
+
+.crm-table th {
+  background: #2d2d2d;
+  color: #bb86fc;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.crm-table tr:hover {
+  background: #252525;
+}
+
+.crm-owner {
+  color: #03dac6;
+  font-family: monospace;
+}
+
+.crm-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 8px;
+  font-weight: bold;
+  font-size: 12px;
+  transition: opacity 0.2s;
+}
+
+.crm-btn.edit { background: #bb86fc; color: #000; }
+.crm-btn.delete { background: #ff5555; color: white; }
+.crm-btn:hover { opacity: 0.8; }
+
+/* Обновленный хедер для поддержки центрального элемента */
+.app-header {
+  position: relative; /* Для абсолютного позиционирования логотипа */
+  height: 60px;
+  background: #181818;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  border-bottom: 1px solid #333;
+  z-index: 1001;
+}
+
+/* Стили логотипа */
+.app-logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Можно подключить Google Fonts (например, 'Pacifico') */
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: #bb86fc;
+  text-transform: lowercase;
+  user-select: none;
+  /* Эффект неонового свечения */
+  text-shadow: 0 0 10px rgba(187, 134, 252, 0.3);
+  cursor: default;
+}
+
+/* Добавим небольшую анимацию при наведении, чтобы логотип "оживал" */
+.app-logo:hover {
+  color: #a370db;
+  text-shadow: 0 0 20px rgba(187, 134, 252, 0.6);
+  transition: all 0.3s ease;
+}
+
+.dropdown-user-name {
+  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
+  text-align: center;
+}
+
+.dropdown-spacer {
+  height: 15px;
+}
+
+/* Универсальный стиль для главной кнопки в меню (фиолетовый) */
+.logout-btn-styled {
+  width: 100%;
+  padding: 8px 16px;
+  background-color: #bb86fc;
+  color: #000;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.logout-btn-styled:hover {
+  background-color: #a370db;
+}

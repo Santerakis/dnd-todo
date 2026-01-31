@@ -1,0 +1,112 @@
+.todo-card {
+    width: 260px;
+    background: #1e1e1e;
+    color: #e1e1e1;
+    border-radius: 8px;
+    position: absolute;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    border: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+}
+
+.drag-handle {
+    padding: 12px;
+    cursor: move;
+    background: #2d2d2d;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: relative;
+    height: 24px;
+}
+
+.list-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 170px;
+    user-select: none;
+    transition: color 0.2s ease;
+}
+
+.list-title:hover {
+    color: #bb86fc;
+}
+
+.delete-list-icon {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #bb86fc;
+    font-size: 22px;
+    font-weight: bold;
+    z-index: 2;
+}
+
+.todo-body { padding: 12px; }
+
+.tasks-container {
+    min-height: 20px;
+}
+
+.dragging-over {
+    background-color: rgba(187, 134, 252, 0.05);
+    border-radius: 4px;
+}
+
+.task-item {
+    background: #333;
+    color: #fff;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    box-sizing: border-box;
+}
+
+.task-item.dragging {
+    background: #444 !important;
+    border: 1px solid #bb86fc;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.6);
+    z-index: 99999 !important;
+    pointer-events: none;
+}
+
+.task-text {
+    flex-grow: 1;
+    font-size: 14px;
+    word-break: break-word;
+}
+
+.delete-task-small {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #bb86fc;
+    font-size: 18px;
+}
+
+.add-btn {
+    width: 100%;
+    padding: 8px;
+    margin-top: 10px;
+    background: transparent;
+    color: #bb86fc;
+    border: 1px dashed #bb86fc;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+}
