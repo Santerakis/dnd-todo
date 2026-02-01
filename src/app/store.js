@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import todoReducer from '../features/todos/todoSlice';
 import authReducer from '../features/auth/authSlice';
+import modalReducer from '../features/modals/modalSlice';
 
 const loadFromLocalStorage = () => {
     try {
@@ -17,7 +18,11 @@ const saveToLocalStorage = (state) => {
 };
 
 export const store = configureStore({
-    reducer: { todos: todoReducer, auth: authReducer },
+    reducer: {
+        todos: todoReducer,
+        auth: authReducer,
+        modal: modalReducer
+    },
     preloadedState: loadFromLocalStorage()
 });
 

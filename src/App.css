@@ -8,6 +8,7 @@
   padding: 0 30px;
   border-bottom: 1px solid #333;
   z-index: 1001;
+  position: relative;
 }
 
 .create-list-btn {
@@ -21,7 +22,7 @@
   font-size: 13px;
 }
 
-/* Профиль и Аватарка */
+/* Профиль */
 .profile-container {
   position: relative;
   display: inline-block;
@@ -40,47 +41,6 @@
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
-  position: relative;
-}
-
-.profile-dropdown {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  width: 200px;
-  background: #1e1e1e;
-  border: 1px solid #333;
-  border-radius: 8px;
-  padding: 15px;
-  display: none;
-  z-index: 1002;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-}
-
-.profile-container:hover .profile-dropdown { display: block; animation: fadeIn 0.2s ease-out; }
-
-/* Админ-панель */
-.admin-dashboard {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 250px;
-  background: rgba(30, 30, 30, 0.9);
-  border: 1px solid #bb86fc;
-  border-radius: 8px;
-  padding: 15px;
-  color: white;
-  z-index: 1000;
-}
-
-.workspace {
-  position: relative;
-  flex-grow: 1;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
 }
 
 /* Выпадающее меню */
@@ -96,26 +56,49 @@
   display: none;
   border: 1px solid #333;
   text-align: center;
+  z-index: 1002;
 }
 
-/* Имя пользователя */
+.profile-container:hover .profile-dropdown {
+  display: block;
+  animation: fadeIn 0.2s ease-out;
+}
+
 .dropdown-user-name {
   color: #fff;
   font-weight: bold;
   font-size: 16px;
-  letter-spacing: 0.5px;
+  margin-bottom: 12px;
 }
 
-/* Расстояние между именем и кнопкой */
-.dropdown-spacer {
-  height: 15px; /* Регулируйте это значение для изменения отступа */
+.dropdown-menu-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Кнопка Выйти в стиле "Создать список" */
+/* Кликабельный текст "Изменить фото" */
+.avatar-text-link {
+  display: inline-block;
+  color: #bb86fc; /* Фиолетовый текст */
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  padding: 5px 0;
+  margin-bottom: 15px; /* Расстояние под текстом */
+}
+
+.avatar-text-link:hover {
+  color: #ffffff; /* Белый при наведении */
+}
+
+/* Кнопка Выйти/Регистрация */
 .logout-btn-styled {
   width: 100%;
-  padding: 8px 16px;
-  background-color: #bb86fc; /* Тот же цвет, что у кнопки Создать список */
+  padding: 9px 16px;
+  background-color: #bb86fc;
   color: #000;
   border: none;
   border-radius: 4px;
@@ -126,28 +109,31 @@
 }
 
 .logout-btn-styled:hover {
-  background-color: #a370db; /* Тот же эффект наведения */
+  background-color: #a370db;
 }
 
-.drag-handle {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 12px;
-  background: #2d2d2d;
-  border-radius: 8px 8px 0 0;
+/* Логотип */
+.app-logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 28px;
+  font-weight: 800;
+  color: #bb86fc;
+  text-transform: lowercase;
+  user-select: none;
+  text-shadow: 0 0 10px rgba(187, 134, 252, 0.3);
 }
 
-.list-title {
-  font-size: 15px;
-  font-weight: 700;
-  color: #fff;
-  cursor: pointer;
-  /* Ограничиваем ширину текста, чтобы не наезжал на крестик */
-  max-width: 180px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* CRM и Workspace */
+.workspace {
+  position: relative;
+  flex-grow: 1;
 }
 
 .crm-container {
@@ -155,12 +141,6 @@
   color: white;
   max-width: 1200px;
   margin: 0 auto;
-}
-
-.crm-title {
-  color: #bb86fc;
-  margin-bottom: 30px;
-  font-size: 24px;
 }
 
 .crm-table {
@@ -183,16 +163,6 @@
   color: #bb86fc;
   text-transform: uppercase;
   font-size: 12px;
-  letter-spacing: 1px;
-}
-
-.crm-table tr:hover {
-  background: #252525;
-}
-
-.crm-owner {
-  color: #03dac6;
-  font-family: monospace;
 }
 
 .crm-btn {
@@ -203,93 +173,7 @@
   margin-right: 8px;
   font-weight: bold;
   font-size: 12px;
-  transition: opacity 0.2s;
 }
 
 .crm-btn.edit { background: #bb86fc; color: #000; }
 .crm-btn.delete { background: #ff5555; color: white; }
-.crm-btn:hover { opacity: 0.8; }
-
-/* Обновленный хедер для поддержки центрального элемента */
-.app-header {
-  position: relative; /* Для абсолютного позиционирования логотипа */
-  height: 60px;
-  background: #181818;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 30px;
-  border-bottom: 1px solid #333;
-  z-index: 1001;
-}
-
-/* Стили логотипа */
-.app-logo {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Можно подключить Google Fonts (например, 'Pacifico') */
-  font-size: 28px;
-  font-weight: 800;
-  letter-spacing: -1px;
-  color: #bb86fc;
-  text-transform: lowercase;
-  user-select: none;
-  /* Эффект неонового свечения */
-  text-shadow: 0 0 10px rgba(187, 134, 252, 0.3);
-  cursor: default;
-}
-
-/* Добавим небольшую анимацию при наведении, чтобы логотип "оживал" */
-.app-logo:hover {
-  color: #a370db;
-  text-shadow: 0 0 20px rgba(187, 134, 252, 0.6);
-  transition: all 0.3s ease;
-}
-
-.dropdown-user-name {
-  color: #fff;
-  font-weight: bold;
-  font-size: 16px;
-  text-align: center;
-}
-
-.dropdown-spacer {
-  height: 15px;
-}
-
-/* Универсальный стиль для главной кнопки в меню (фиолетовый) */
-.logout-btn-styled {
-  width: 100%;
-  padding: 8px 16px;
-  background-color: #bb86fc;
-  color: #000;
-  border: none;
-  border-radius: 4px;
-  font-weight: bold;
-  font-size: 13px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.logout-btn-styled:hover {
-  background-color: #a370db;
-}
-
-.avatar-upload-btn {
-  display: block;
-  width: 100%;
-  padding: 8px;
-  margin: 8px 0;
-  background: #444;
-  color: #bb86fc;
-  border: 1px solid #555;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  text-align: center;
-}
-
-.avatar-upload-btn:hover {
-  background: #555;
-}
