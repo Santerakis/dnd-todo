@@ -38,7 +38,17 @@ body, html {
   font-weight: 800;
   color: #bb86fc;
   letter-spacing: -1px;
-  text-shadow: 0 0 15px rgba(187, 134, 252, 0.2);
+  cursor: default;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+  text-shadow: 0 0 10px rgba(187, 134, 252, 0); /* Исходно свечение прозрачное */
+}
+
+.app-logo:hover {
+  color: #fff; /* Цвет текста становится белым для контраста */
+  text-shadow:
+          0 0 8px #bb86fc,
+          0 0 15px #bb86fc,
+          0 0 30px #6200ee; /* Многослойное свечение */
 }
 
 .create-list-btn {
