@@ -11,13 +11,15 @@ export const GlobalModal = () => {
 
     if (!isOpen) return null;
 
-    const handleClose = () => dispatch(closeModal());
+    const handleClose = () => {
+        dispatch(closeModal());
+        setInputValue('');
+    };
 
     const handleConfirm = () => {
         if (type === 'prompt') {
             props.onConfirm(inputValue);
-            setInputValue('');
-        } else {
+        } else if (props.onConfirm) {
             props.onConfirm();
         }
         handleClose();
@@ -26,6 +28,7 @@ export const GlobalModal = () => {
     const renderContent = () => {
         switch (type) {
             case 'auth':
+                // Передаем пропсы для формы входа/регистрации
                 return <AuthForm initialIsLogin={props.isLogin} />;
             case 'confirm':
                 return (
@@ -71,8 +74,9 @@ export const GlobalModal = () => {
 
     return (
         <div className="modal-overlay" onClick={handleClose}>
-            <div className="modal-content" onClick={e => e.stopPropagation()}>
-                {type !== 'auth' && <button className="modal-close-x" onClick={handleClose}>×</button>}
+            {/* Добавляем специальный класс для auth, чтобы убрать лишние отступы если нужно */}
+            <div className={`modal-content ${type === 'auth' ? 'modal-auth-type' : ''}`} onClick={e => e.stopPropagation()}>
+                <button className="modal-close-x" onClick={handleClose}>×</button>
                 {renderContent()}
             </div>
         </div>

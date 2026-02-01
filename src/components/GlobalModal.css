@@ -9,46 +9,79 @@
 
 .modal-content {
     background: #1e1e1e;
-    padding: 24px;
+    padding: 30px;
     border-radius: 12px;
-    min-width: 300px;
+    width: 340px; /* Фиксированная ширина для всех модалок */
     border: 1px solid #333;
     position: relative;
     color: white;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
 }
 
-.modal-inner h3 { color: #bb86fc; margin-top: 0; }
+/* Убираем лишние отступы для авторизации, если нужно */
+.modal-auth-type {
+    padding: 40px 30px;
+}
+
+.modal-inner h3, .modal-title {
+    color: #bb86fc;
+    margin: 0 0 20px 0;
+    text-align: center;
+}
 
 .modal-input {
     width: 100%;
-    padding: 10px;
-    margin: 15px 0;
-    background: #333;
+    padding: 12px;
+    margin-bottom: 15px;
+    background: #2d2d2d;
     border: 1px solid #444;
     color: white;
-    border-radius: 4px;
+    border-radius: 6px;
     box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.modal-input:focus {
+    border-color: #bb86fc;
 }
 
 .modal-btns {
     display: flex;
-    gap: 10px;
+    gap: 12px;
     margin-top: 20px;
 }
 
 .secondary-btn {
     flex: 1;
-    padding: 10px;
+    padding: 12px;
     background: #333;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
+    font-weight: bold;
 }
 
 .modal-close-x {
     position: absolute;
-    top: 10px; right: 10px;
+    top: 15px; right: 15px;
     background: none; border: none;
-    color: #666; font-size: 24px; cursor: pointer;
+    color: #666; font-size: 28px; cursor: pointer;
+    line-height: 1;
+}
+
+.modal-close-x:hover { color: #fff; }
+
+.auth-submit-btn {
+    margin-top: 10px;
+}
+
+.toggle-auth {
+    color: #bb86fc;
+    cursor: pointer;
+    font-size: 13px;
+    margin-top: 20px;
+    text-decoration: underline;
+    text-align: center;
 }

@@ -1,37 +1,100 @@
-/* Шапка */
+/* Базовые настройки страницы */
+body, html {
+  margin: 0;
+  padding: 0;
+  background-color: #121212;
+  color: #e0e0e0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow: hidden; /* Запрещаем общий скролл страницы, так как у нас рабочий стол */
+}
+
+/* Основной контейнер */
+.main-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Шапка приложения */
 .app-header {
   height: 60px;
+  min-height: 60px;
   background: #181818;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 30px;
   border-bottom: 1px solid #333;
-  z-index: 1001;
-  position: relative;
+  z-index: 1000;
+  box-sizing: border-box;
 }
 
+/* Логотип */
+.app-logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 24px;
+  font-weight: 800;
+  color: #bb86fc;
+  letter-spacing: -1px;
+  text-shadow: 0 0 15px rgba(187, 134, 252, 0.2);
+}
+
+/* Кнопка создания списка */
 .create-list-btn {
   padding: 10px 20px;
   background-color: #bb86fc;
   color: #000;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   font-weight: bold;
   cursor: pointer;
   font-size: 13px;
+  transition: transform 0.2s, background-color 0.2s;
 }
 
-/* Профиль */
+.create-list-btn:hover {
+  background-color: #d7b7fd;
+  transform: translateY(-1px);
+}
+
+.create-list-btn:active {
+  transform: translateY(0);
+}
+
+/* Рабочая область (холст для списков) */
+.workspace {
+  flex-grow: 1;
+  background-color: #121212;
+  background-image:
+          radial-gradient(#252525 1px, transparent 1px);
+  background-size: 30px 30px; /* Эффект сетки на фоне */
+  position: relative;
+  overflow: auto; /* Позволяет скроллить, если список уехал далеко */
+}
+
+/* Обертка для Draggable элементов */
+.draggable-list-wrapper {
+  position: absolute;
+  z-index: 10;
+  transition: box-shadow 0.2s;
+}
+
+.draggable-list-wrapper:active {
+  z-index: 100; /* Поднимаем перетаскиваемый список выше остальных */
+}
+
+/* Профиль в шапке */
 .profile-container {
   position: relative;
-  display: inline-block;
-  padding: 10px 0;
+  padding: 5px 0;
 }
 
 .avatar {
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   background: linear-gradient(135deg, #bb86fc, #6200ee);
   color: white;
   border-radius: 50%;
@@ -40,106 +103,76 @@
   align-items: center;
   font-weight: bold;
   cursor: pointer;
-  transition: all 0.3s ease;
+  border: 2px solid #333;
+  overflow: hidden;
 }
 
-/* Выпадающее меню */
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Выпадающее меню профиля */
 .profile-dropdown {
   position: absolute;
-  top: 55px;
+  top: 50px;
   right: 0;
-  width: 180px;
+  width: 200px;
   background: #1e1e1e;
   border-radius: 8px;
-  padding: 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+  padding: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
   display: none;
   border: 1px solid #333;
-  text-align: center;
-  z-index: 1002;
+  z-index: 1001;
 }
 
 .profile-container:hover .profile-dropdown {
   display: block;
-  animation: fadeIn 0.2s ease-out;
 }
 
 .dropdown-user-name {
   color: #fff;
   font-weight: bold;
-  font-size: 16px;
-  margin-bottom: 12px;
+  font-size: 15px;
+  margin-bottom: 5px;
+  text-align: center;
 }
 
-.dropdown-menu-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* Кликабельный текст "Изменить фото" */
 .avatar-text-link {
-  display: inline-block;
-  color: #bb86fc; /* Фиолетовый текст */
-  font-size: 13px;
-  font-weight: 500;
+  display: block;
+  color: #bb86fc;
+  font-size: 12px;
+  text-align: center;
+  margin-bottom: 15px;
   cursor: pointer;
-  text-decoration: none;
-  transition: color 0.2s ease;
-  padding: 5px 0;
-  margin-bottom: 15px; /* Расстояние под текстом */
+  text-decoration: underline;
 }
 
 .avatar-text-link:hover {
-  color: #ffffff; /* Белый при наведении */
+  color: #fff;
 }
 
-/* Кнопка Выйти/Регистрация */
 .logout-btn-styled {
   width: 100%;
-  padding: 9px 16px;
+  padding: 8px;
   background-color: #bb86fc;
-  color: #000;
+  color: #121212;
   border: none;
   border-radius: 4px;
   font-weight: bold;
-  font-size: 13px;
   cursor: pointer;
-  transition: background-color 0.2s;
 }
 
 .logout-btn-styled:hover {
-  background-color: #a370db;
+  opacity: 0.9;
 }
 
-/* Логотип */
-.app-logo {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 28px;
-  font-weight: 800;
-  color: #bb86fc;
-  text-transform: lowercase;
-  user-select: none;
-  text-shadow: 0 0 10px rgba(187, 134, 252, 0.3);
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* CRM и Workspace */
-.workspace {
-  position: relative;
-  flex-grow: 1;
-}
-
+/* Стили для CRM таблицы (Админ-панель) */
 .crm-container {
   padding: 40px;
-  color: white;
-  max-width: 1200px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
@@ -149,31 +182,26 @@
   background: #1e1e1e;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
 .crm-table th, .crm-table td {
-  padding: 15px 20px;
+  padding: 15px;
   text-align: left;
   border-bottom: 1px solid #333;
 }
 
 .crm-table th {
-  background: #2d2d2d;
+  background: #252525;
   color: #bb86fc;
-  text-transform: uppercase;
-  font-size: 12px;
 }
 
 .crm-btn {
   padding: 6px 12px;
-  border: none;
   border-radius: 4px;
+  border: none;
   cursor: pointer;
-  margin-right: 8px;
-  font-weight: bold;
-  font-size: 12px;
+  margin-right: 5px;
 }
 
-.crm-btn.edit { background: #bb86fc; color: #000; }
-.crm-btn.delete { background: #ff5555; color: white; }
+.crm-btn.edit { background: #333; color: #fff; }
+.crm-btn.delete { background: #ff5555; color: #fff; }

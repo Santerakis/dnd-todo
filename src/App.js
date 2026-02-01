@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { logout, updateAvatar } from './features/auth/authSlice';
-import { addList, removeList, renameList } from './features/todos/todoSlice';
+import { addList, moveList, reorderTasks } from './features/todos/todoSlice';
 import { openModal } from './features/modals/modalSlice';
 import { GlobalModal } from './components/GlobalModal';
 import TodoList from './features/todos/TodoList';
@@ -12,10 +13,27 @@ function App() {
     const allLists = useSelector(state => state.todos.lists);
     const dispatch = useDispatch();
 
+    const onDragEnd = (result) => {
+        const { source, destination, type } = result;
+        if (!destination) return;
+
+        if (type === 'list') {
+            dispatch(moveList({
+                sourceIndex: source.index,
+                destinationIndex: destination.index
+            }));
+        } else {
+            dispatch(reorderTasks({
+                listId: source.droppableId,
+                sourceIndex: source.index,
+                destinationIndex: destination.index
+            }));
+        }
+    };
+
     const handleAvatarChange = (e) => {
         const file = e.target.files[0];
         if (!file) return;
-
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = (event) => {
@@ -24,27 +42,26 @@ function App() {
             img.onload = () => {
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
-                canvas.width = 128;
-                canvas.height = 128;
-                const sourceSize = Math.min(img.width, img.height);
-                const sourceX = (img.width - sourceSize) / 2;
-                const sourceY = (img.height - sourceSize) / 2;
-                ctx.drawImage(img, sourceX, sourceY, sourceSize, sourceSize, 0, 0, 128, 128);
-                const base64 = canvas.toDataURL('image/jpeg', 0.75);
-                dispatch(updateAvatar({ avatarBase64: base64 }));
+                canvas.width = 128; canvas.height = 128;
+                const size = Math.min(img.width, img.height);
+                ctx.drawImage(img, (img.width-size)/2, (img.height-size)/2, size, size, 0, 0, 128, 128);
+                dispatch(updateAvatar({ avatarBase64: canvas.toDataURL('image/jpeg', 0.75) }));
             };
         };
     };
 
     const handleCreateList = () => {
+        const myLists = allLists.filter(l => l.owner === user.username);
+        if (user.role === 'guest' && myLists.length >= 1) {
+            dispatch(openModal({ type: 'alert', props: { message: 'Гостям доступен только 1 список!' } }));
+            return;
+        }
         dispatch(openModal({
             type: 'prompt',
             props: {
                 title: 'Новый список',
                 onConfirm: (title) => {
-                    if (title && title.trim()) {
-                        dispatch(addList({ title: title.trim(), owner: user.username, role: user.role }));
-                    }
+                    if (title?.trim()) dispatch(addList({ title: title.trim(), owner: user.username }));
                 }
             }
         }));
@@ -54,97 +71,61 @@ function App() {
         <div className="main-layout">
             <GlobalModal />
             <header className="app-header">
-                <button className="create-list-btn" onClick={handleCreateList}>
-                    + Создать список
-                </button>
+                <button className="create-list-btn" onClick={handleCreateList}>+ Создать список</button>
                 <div className="app-logo">todos</div>
                 <div className="profile-container">
-                    <div className="avatar" style={user.avatar ? { background: 'none' } : {}}>
+                    <div className="avatar">
                         {user.avatar ? (
-                            <img
-                                src={user.avatar}
-                                alt="avatar"
-                                style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }}
-                            />
+                            <img src={user.avatar} alt="avatar" style={{width:'100%', height:'100%', borderRadius:'50%', objectFit:'cover'}} />
                         ) : (
                             user.username.charAt(0).toUpperCase()
                         )}
                     </div>
                     <div className="profile-dropdown">
                         <div className="dropdown-user-name">{user.username}</div>
-
-                        <label className="avatar-text-link">
-                            Изменить фото
-                            <input
-                                type="file"
-                                accept="image/*"
-                                onChange={handleAvatarChange}
-                                style={{ display: 'none' }}
-                            />
-                        </label>
-
-                        {user.role === 'guest' ? (
-                            <button className="logout-btn-styled" onClick={() => dispatch(openModal({ type: 'auth', props: { isLogin: false } }))}>
-                                Регистрация
-                            </button>
-                        ) : (
-                            <button className="logout-btn-styled" onClick={() => dispatch(logout())}>
-                                Выйти
-                            </button>
-                        )}
+                        <label className="avatar-text-link">Изменить фото<input type="file" onChange={handleAvatarChange} style={{display:'none'}}/></label>
+                        <button className="logout-btn-styled" onClick={() => user.role === 'guest' ? dispatch(openModal({type:'auth', props:{isLogin:false}})) : dispatch(logout())}>
+                            {user.role === 'guest' ? 'Регистрация' : 'Выйти'}
+                        </button>
                     </div>
                 </div>
             </header>
 
             <main className="workspace">
-                {user.role === 'admin' ? (
-                    <div className="crm-container">
-                        <table className="crm-table">
-                            <thead>
-                            <tr>
-                                <th>Имя</th>
-                                <th>Автор</th>
-                                <th>Задач</th>
-                                <th>Действия</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {allLists.map(l => (
-                                <tr key={l.id}>
-                                    <td>{l.title}</td>
-                                    <td>{l.owner}</td>
-                                    <td>{l.tasks.length}</td>
-                                    <td>
-                                        <button className="crm-btn edit" onClick={() => {
-                                            dispatch(openModal({
-                                                type: 'prompt',
-                                                props: {
-                                                    title: 'Переименовать',
-                                                    onConfirm: (newTitle) => dispatch(renameList({ id: l.id, title: newTitle }))
-                                                }
-                                            }))
-                                        }}>Изменить</button>
-                                        <button className="crm-btn delete" onClick={() => {
-                                            dispatch(openModal({
-                                                type: 'confirm',
-                                                props: {
-                                                    title: 'Удаление',
-                                                    message: `Удалить список "${l.title}"?`,
-                                                    onConfirm: () => dispatch(removeList(l.id))
-                                                }
-                                            }))
-                                        }}>Удалить</button>
-                                    </td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </table>
-                    </div>
-                ) : (
-                    <div className="todo-workspace">
-                        {allLists.filter(l => l.owner === user.username).map(l => <TodoList key={l.id} list={l} />)}
-                    </div>
-                )}
+                <DragDropContext onDragEnd={onDragEnd}>
+                    <Droppable droppableId="all-lists" direction="horizontal" type="list">
+                        {(provided) => (
+                            <div
+                                className="todo-workspace"
+                                {...provided.droppableProps}
+                                ref={provided.innerRef}
+                                style={{ display: 'flex', alignItems: 'flex-start', minHeight: '80vh' }}
+                            >
+                                {allLists
+                                    .filter(l => l.owner === user.username || user.role === 'admin')
+                                    .map((l, index) => (
+                                        <Draggable key={l.id} draggableId={l.id} index={index}>
+                                            {(provided, snapshot) => (
+                                                <div
+                                                    ref={provided.innerRef}
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
+                                                    style={{
+                                                        ...provided.draggableProps.style,
+                                                        minWidth: '320px', // 300px ширина + 20px (margin/gap)
+                                                        opacity: snapshot.isDragging ? 0.9 : 1
+                                                    }}
+                                                >
+                                                    <TodoList list={l} />
+                                                </div>
+                                            )}
+                                        </Draggable>
+                                    ))}
+                                {provided.placeholder}
+                            </div>
+                        )}
+                    </Droppable>
+                </DragDropContext>
             </main>
         </div>
     );

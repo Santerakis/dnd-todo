@@ -5,12 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad8856c2-6fee-4bb0-8d77-99f38bc29104" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/GlobalModal.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/GlobalModal.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/features/modals/modalSlice.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/todos/TodoList.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/store.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/GlobalModal.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/GlobalModal.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/GlobalModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/GlobalModal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/auth/AuthForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/auth/AuthForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/todos/TodoList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/todos/TodoList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/todos/todoSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/todos/todoSlice.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +86,7 @@
       <workItem from="1769780249091" duration="11348000" />
       <workItem from="1769861314500" duration="2701000" />
       <workItem from="1769874922739" duration="8582000" />
-      <workItem from="1769942796251" duration="6962000" />
+      <workItem from="1769942796251" duration="12412000" />
     </task>
     <servers />
   </component>

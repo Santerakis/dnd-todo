@@ -18,19 +18,23 @@ export const AuthForm = ({ initialIsLogin = true }) => {
             dispatch(login(form));
         } else {
             dispatch(register(form));
+            // Небольшая задержка перед переключением на вход после регистрации
             setTimeout(() => {
-                setIsLogin(true);
-                setForm(prev => ({ ...prev, password: '' }));
+                if (!error) {
+                    setIsLogin(true);
+                    setForm(prev => ({ ...prev, password: '' }));
+                }
             }, 500);
         }
     };
 
     return (
-        <div className="auth-container">
-            <form className="auth-form" onSubmit={handleSubmit}>
-                <h2>{isLogin ? 'Вход' : 'Регистрация'}</h2>
+        <div className="auth-modal-inner">
+            <form onSubmit={handleSubmit}>
+                <h2 className="modal-title">{isLogin ? 'Вход' : 'Регистрация'}</h2>
                 {error && <p className="auth-error">{error}</p>}
                 <input
+                    className="modal-input"
                     type="text"
                     placeholder="Логин"
                     value={form.username}
@@ -38,13 +42,14 @@ export const AuthForm = ({ initialIsLogin = true }) => {
                     required
                 />
                 <input
+                    className="modal-input"
                     type="password"
                     placeholder="Пароль"
                     value={form.password}
                     onChange={(e) => setForm({...form, password: e.target.value})}
                     required
                 />
-                <button type="submit" className="main-btn">
+                <button type="submit" className="main-btn auth-submit-btn">
                     {isLogin ? 'Войти' : 'Создать аккаунт'}
                 </button>
                 <p onClick={() => { setIsLogin(!isLogin); dispatch(clearError()); }} className="toggle-auth">
