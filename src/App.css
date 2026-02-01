@@ -1,14 +1,13 @@
-/* Базовые настройки страницы */
+/* 1. Глобальные настройки */
 body, html {
   margin: 0;
   padding: 0;
   background-color: #121212;
   color: #e0e0e0;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  overflow: hidden; /* Запрещаем общий скролл страницы, так как у нас рабочий стол */
+  overflow: hidden;
 }
 
-/* Основной контейнер */
 .main-layout {
   display: flex;
   flex-direction: column;
@@ -16,7 +15,7 @@ body, html {
   width: 100vw;
 }
 
-/* Шапка приложения */
+/* 2. Шапка приложения */
 .app-header {
   height: 60px;
   min-height: 60px;
@@ -28,9 +27,9 @@ body, html {
   border-bottom: 1px solid #333;
   z-index: 1000;
   box-sizing: border-box;
+  position: relative;
 }
 
-/* Логотип */
 .app-logo {
   position: absolute;
   left: 50%;
@@ -42,7 +41,6 @@ body, html {
   text-shadow: 0 0 15px rgba(187, 134, 252, 0.2);
 }
 
-/* Кнопка создания списка */
 .create-list-btn {
   padding: 10px 20px;
   background-color: #bb86fc;
@@ -52,41 +50,18 @@ body, html {
   font-weight: bold;
   cursor: pointer;
   font-size: 13px;
-  transition: transform 0.2s, background-color 0.2s;
+  transition: background-color 0.2s; /* Убрал переход для transform */
 }
 
 .create-list-btn:hover {
-  background-color: #d7b7fd;
-  transform: translateY(-1px);
+  background-color: #d7b7fd; /* Только изменение цвета */
 }
 
 .create-list-btn:active {
   transform: translateY(0);
 }
 
-/* Рабочая область (холст для списков) */
-.workspace {
-  flex-grow: 1;
-  background-color: #121212;
-  background-image:
-          radial-gradient(#252525 1px, transparent 1px);
-  background-size: 30px 30px; /* Эффект сетки на фоне */
-  position: relative;
-  overflow: auto; /* Позволяет скроллить, если список уехал далеко */
-}
-
-/* Обертка для Draggable элементов */
-.draggable-list-wrapper {
-  position: absolute;
-  z-index: 10;
-  transition: box-shadow 0.2s;
-}
-
-.draggable-list-wrapper:active {
-  z-index: 100; /* Поднимаем перетаскиваемый список выше остальных */
-}
-
-/* Профиль в шапке */
+/* 3. Профиль и выпадающее меню */
 .profile-container {
   position: relative;
   padding: 5px 0;
@@ -113,7 +88,6 @@ body, html {
   object-fit: cover;
 }
 
-/* Выпадающее меню профиля */
 .profile-dropdown {
   position: absolute;
   top: 50px;
@@ -150,9 +124,7 @@ body, html {
   text-decoration: underline;
 }
 
-.avatar-text-link:hover {
-  color: #fff;
-}
+.avatar-text-link:hover { color: #fff; }
 
 .logout-btn-styled {
   width: 100%;
@@ -165,11 +137,33 @@ body, html {
   cursor: pointer;
 }
 
-.logout-btn-styled:hover {
-  opacity: 0.9;
+.logout-btn-styled:hover { opacity: 0.9; }
+
+/* 4. Рабочая область (Холст) */
+.workspace {
+  flex-grow: 1;
+  background-color: #121212;
+  background-image: radial-gradient(#252525 1px, transparent 1px);
+  background-size: 30px 30px;
+  position: relative;
+  overflow: auto;
+  width: 100%;
+  height: calc(100vh - 60px);
 }
 
-/* Стили для CRM таблицы (Админ-панель) */
+.draggable-list-wrapper {
+  position: absolute;
+  z-index: 10;
+  cursor: grab;
+  transition: z-index 0.2s, box-shadow 0.2s;
+}
+
+.draggable-list-wrapper:active {
+  z-index: 100;
+  cursor: grabbing;
+}
+
+/* 5. CRM / Админ-панель */
 .crm-container {
   padding: 40px;
   max-width: 1000px;

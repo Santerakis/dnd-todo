@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, register, clearError } from './authSlice';
+import { closeModal } from '../modals/modalSlice'; // Импортируем экшен закрытия
 
 export const AuthForm = ({ initialIsLogin = true }) => {
     const [isLogin, setIsLogin] = useState(initialIsLogin);
     const [form, setForm] = useState({ username: '', password: '' });
-    const { error } = useSelector(state => state.auth);
+    const { error, user } = useSelector(state => state.auth);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -16,9 +17,15 @@ export const AuthForm = ({ initialIsLogin = true }) => {
         e.preventDefault();
         if (isLogin) {
             dispatch(login(form));
+            // Используем setTimeout, чтобы дождаться обновления стейта и проверить наличие ошибки
+            setTimeout(() => {
+                const currentUser = JSON.parse(localStorage.getItem('current_user'));
+                if (currentUser && currentUser.username === form.username) {
+                    dispatch(closeModal());
+                }
+            }, 10);
         } else {
             dispatch(register(form));
-            // Небольшая задержка перед переключением на вход после регистрации
             setTimeout(() => {
                 if (!error) {
                     setIsLogin(true);
