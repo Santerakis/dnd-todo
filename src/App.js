@@ -18,10 +18,7 @@ function App() {
         if (!destination) return;
 
         if (type === 'list') {
-            dispatch(moveList({
-                sourceIndex: source.index,
-                destinationIndex: destination.index
-            }));
+            dispatch(moveList({ sourceIndex: source.index, destinationIndex: destination.index }));
         } else {
             dispatch(reorderTasks({
                 listId: source.droppableId,
@@ -51,8 +48,7 @@ function App() {
     };
 
     const handleCreateList = () => {
-        const myLists = allLists.filter(l => l.owner === user.username);
-        if (user.role === 'guest' && myLists.length >= 1) {
+        if (user.role === 'guest' && allLists.filter(l => l.owner === user.username).length >= 1) {
             dispatch(openModal({ type: 'alert', props: { message: 'Гостям доступен только 1 список!' } }));
             return;
         }
@@ -75,11 +71,7 @@ function App() {
                 <div className="app-logo">todos</div>
                 <div className="profile-container">
                     <div className="avatar">
-                        {user.avatar ? (
-                            <img src={user.avatar} alt="avatar" style={{width:'100%', height:'100%', borderRadius:'50%', objectFit:'cover'}} />
-                        ) : (
-                            user.username.charAt(0).toUpperCase()
-                        )}
+                        {user.avatar ? <img src={user.avatar} alt="avatar" style={{width:'100%', height:'100%', borderRadius:'50%'}} /> : user.username.charAt(0).toUpperCase()}
                     </div>
                     <div className="profile-dropdown">
                         <div className="dropdown-user-name">{user.username}</div>
@@ -95,32 +87,16 @@ function App() {
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId="all-lists" direction="horizontal" type="list">
                         {(provided) => (
-                            <div
-                                className="todo-workspace"
-                                {...provided.droppableProps}
-                                ref={provided.innerRef}
-                                style={{ display: 'flex', alignItems: 'flex-start', minHeight: '80vh' }}
-                            >
-                                {allLists
-                                    .filter(l => l.owner === user.username || user.role === 'admin')
-                                    .map((l, index) => (
-                                        <Draggable key={l.id} draggableId={l.id} index={index}>
-                                            {(provided, snapshot) => (
-                                                <div
-                                                    ref={provided.innerRef}
-                                                    {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                    style={{
-                                                        ...provided.draggableProps.style,
-                                                        minWidth: '320px', // 300px ширина + 20px (margin/gap)
-                                                        opacity: snapshot.isDragging ? 0.9 : 1
-                                                    }}
-                                                >
-                                                    <TodoList list={l} />
-                                                </div>
-                                            )}
-                                        </Draggable>
-                                    ))}
+                            <div className="todo-workspace" {...provided.droppableProps} ref={provided.innerRef}>
+                                {allLists.filter(l => l.owner === user.username || user.role === 'admin').map((l, index) => (
+                                    <Draggable key={l.id} draggableId={l.id} index={index}>
+                                        {(provided) => (
+                                            <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                                <TodoList list={l} />
+                                            </div>
+                                        )}
+                                    </Draggable>
+                                ))}
                                 {provided.placeholder}
                             </div>
                         )}
