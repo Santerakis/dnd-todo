@@ -6,7 +6,7 @@ import { addList, updateListPosition, reorderTasks } from './features/todos/todo
 import { openModal } from './features/modals/modalSlice';
 import { GlobalModal } from './components/GlobalModal';
 import TodoList from './features/todos/TodoList';
-import { AdminDashboard } from './features/admin/AdminDashboard'; // Импорт новой панели
+import { AdminDashboard } from './features/admin/AdminDashboard';
 import './App.css';
 
 function App() {
@@ -108,8 +108,6 @@ function App() {
                 </div>
             </header>
             <main className="workspace">
-                {/* Если админ, показываем CRM поверх или под списками.
-                    Здесь для удобства выведено в начало рабочей области */}
                 {user.role === 'admin' && <AdminDashboard />}
 
                 <DragDropContext onDragEnd={onDragEnd}>

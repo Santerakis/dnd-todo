@@ -3,15 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const todoSlice = createSlice({
     name: 'todos',
     initialState: {
-        lists: [
-            {
-                id: crypto.randomUUID(),
-                title: 'Основные задачи',
-                owner: 'admin',
-                position: { x: 50, y: 50 },
-                tasks: [{ id: crypto.randomUUID(), text: 'Добро пожаловать!', completed: false }]
-            }
-        ]
+        lists: [] // Полностью очищаем начальное состояние
     },
     reducers: {
         addList: (state, action) => {

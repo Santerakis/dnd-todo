@@ -97,7 +97,7 @@
     .remove-task-btn:hover { color: #ff5555; }
 
     .add-task-btn {
-        margin: 15px;
+        margin: 0 15px 15px 15px;
         padding: 10px;
         background: none;
         border: 1px dashed #444;
