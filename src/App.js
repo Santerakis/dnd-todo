@@ -92,23 +92,35 @@ function App() {
         <div className="main-layout">
             <GlobalModal />
             <header className="app-header">
-                {user.role !== 'admin' && (
+                {/* Скрываем кнопку создания для админа */}
+                {user.role !== 'admin' ? (
                     <button className="create-list-btn" onClick={handleCreateList}>+ Создать список</button>
+                ) : (
+                    <div style={{ width: '130px' }}></div> // Заглушка для сохранения симметрии логотипа
                 )}
+
                 <div className="app-logo">todos</div>
+
                 <div className="profile-container">
                     <div className="avatar">
-                        {user.avatar ? <img src={user.avatar} alt="avatar" /> : user.username.charAt(0).toUpperCase()}
+                        {user.avatar ? (
+                            <img src={user.avatar} alt="avatar" style={{ width: '100%', height: '100%', borderRadius: '50%' }} />
+                        ) : (
+                            user.username.charAt(0).toUpperCase()
+                        )}
                     </div>
                     <div className="profile-dropdown">
                         <div className="dropdown-user-name">{user.username}</div>
-                        <label className="avatar-text-link">Изменить фото<input type="file" onChange={handleAvatarChange} style={{ display: 'none' }} /></label>
+                        <label className="avatar-text-link">Изменить фото
+                            <input type="file" onChange={handleAvatarChange} style={{ display: 'none' }} />
+                        </label>
                         <button className="logout-btn-styled" onClick={() => user.role === 'guest' ? dispatch(openModal({ type: 'auth', props: { isLogin: false } })) : dispatch(logout())}>
                             {user.role === 'guest' ? 'Регистрация' : 'Выйти'}
                         </button>
                     </div>
                 </div>
             </header>
+
             <main className="workspace">
                 {user.role === 'admin' ? (
                     <AdminDashboard />
@@ -140,4 +152,5 @@ function App() {
         </div>
     );
 }
+
 export default App;

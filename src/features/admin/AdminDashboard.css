@@ -1,9 +1,12 @@
 .crm-container {
-    padding: 20px;
+    padding: 30px;
     background: #1e1e1e;
     border-radius: 12px;
-    margin: 40px 20px 20px 20px; /* Увеличен верхний отступ до 40px */
+    /* Используем padding сверху вместо margin, если родитель — flex */
+    margin: 40px auto;
+    max-width: 1200px;
     border: 1px solid #333;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
 .crm-table {
@@ -13,7 +16,7 @@
 }
 
 .crm-table th, .crm-table td {
-    padding: 12px;
+    padding: 15px;
     text-align: left;
     border-bottom: 1px solid #333;
     color: #eee;
@@ -49,5 +52,5 @@
 }
 
 .crm-table tr:hover {
-    background: rgba(255, 255, 255, 0.02);
+    background: rgba(255, 255, 255, 0.05);
 }
