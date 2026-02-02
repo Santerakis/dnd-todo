@@ -92,7 +92,9 @@ function App() {
         <div className="main-layout">
             <GlobalModal />
             <header className="app-header">
-                <button className="create-list-btn" onClick={handleCreateList}>+ Создать список</button>
+                {user.role !== 'admin' && (
+                    <button className="create-list-btn" onClick={handleCreateList}>+ Создать список</button>
+                )}
                 <div className="app-logo">todos</div>
                 <div className="profile-container">
                     <div className="avatar">
@@ -108,30 +110,32 @@ function App() {
                 </div>
             </header>
             <main className="workspace">
-                {user.role === 'admin' && <AdminDashboard />}
-
-                <DragDropContext onDragEnd={onDragEnd}>
-                    {allLists
-                        .filter(l => l.owner === user.username || user.role === 'admin')
-                        .map((l) => {
-                            const pos = l.position || { x: 50, y: 50 };
-                            return (
-                                <div
-                                    key={l.id}
-                                    className="draggable-list-wrapper"
-                                    style={{
-                                        left: pos.x,
-                                        top: pos.y,
-                                        position: 'absolute',
-                                        zIndex: draggingList === l.id ? 100 : 10
-                                    }}
-                                    onMouseDown={(e) => handleMouseDown(e, l.id)}
-                                >
-                                    <TodoList list={l} />
-                                </div>
-                            );
-                        })}
-                </DragDropContext>
+                {user.role === 'admin' ? (
+                    <AdminDashboard />
+                ) : (
+                    <DragDropContext onDragEnd={onDragEnd}>
+                        {allLists
+                            .filter(l => l.owner === user.username)
+                            .map((l) => {
+                                const pos = l.position || { x: 50, y: 50 };
+                                return (
+                                    <div
+                                        key={l.id}
+                                        className="draggable-list-wrapper"
+                                        style={{
+                                            left: pos.x,
+                                            top: pos.y,
+                                            position: 'absolute',
+                                            zIndex: draggingList === l.id ? 100 : 10
+                                        }}
+                                        onMouseDown={(e) => handleMouseDown(e, l.id)}
+                                    >
+                                        <TodoList list={l} />
+                                    </div>
+                                );
+                            })}
+                    </DragDropContext>
+                )}
             </main>
         </div>
     );

@@ -2,7 +2,7 @@
     padding: 20px;
     background: #1e1e1e;
     border-radius: 12px;
-    margin: 20px;
+    margin: 40px 20px 20px 20px; /* Увеличен верхний отступ до 40px */
     border: 1px solid #333;
 }
 
