@@ -6,6 +6,7 @@ import { addList, updateListPosition, reorderTasks } from './features/todos/todo
 import { openModal } from './features/modals/modalSlice';
 import { GlobalModal } from './components/GlobalModal';
 import TodoList from './features/todos/TodoList';
+import { AdminDashboard } from './features/admin/AdminDashboard'; // Импорт новой панели
 import './App.css';
 
 function App() {
@@ -95,7 +96,7 @@ function App() {
                 <div className="app-logo">todos</div>
                 <div className="profile-container">
                     <div className="avatar">
-                        {user.avatar ? <img src={user.avatar} alt="avatar" style={{ width: '100%', height: '100%', borderRadius: '50%' }} /> : user.username.charAt(0).toUpperCase()}
+                        {user.avatar ? <img src={user.avatar} alt="avatar" /> : user.username.charAt(0).toUpperCase()}
                     </div>
                     <div className="profile-dropdown">
                         <div className="dropdown-user-name">{user.username}</div>
@@ -107,6 +108,10 @@ function App() {
                 </div>
             </header>
             <main className="workspace">
+                {/* Если админ, показываем CRM поверх или под списками.
+                    Здесь для удобства выведено в начало рабочей области */}
+                {user.role === 'admin' && <AdminDashboard />}
+
                 <DragDropContext onDragEnd={onDragEnd}>
                     {allLists
                         .filter(l => l.owner === user.username || user.role === 'admin')
